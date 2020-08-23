@@ -26,6 +26,6 @@ def main():
                 data = json.loads(r.wait.get(task))
                 method = data['downloader']
                 if method == 'you-get':
-                    pool.submit(download_you_get)
+                    pool.submit(download_you_get())
                 elif method == 'aria2':
-                    pool.submit(download_aria2)
+                    pool.submit(download_aria2())

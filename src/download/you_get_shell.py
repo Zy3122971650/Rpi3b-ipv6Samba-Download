@@ -1,12 +1,10 @@
 import sys
+sys.path.append('/home/zy/Rpi3BAndSamb')
 import subprocess
 import os
 import json
 import src.redisdb.db as db
 r = db.redisdb()
-
-sys.path.append('/home/zy/Rpi3BAndSamb')
-
 
 def download(path: str, args: str) -> list:  # [title,current_size,total_size]
     t = subprocess.Popen(path+args,
@@ -15,6 +13,7 @@ def download(path: str, args: str) -> list:  # [title,current_size,total_size]
                          encoding='utf-8',
                          shell=True)
     data = {}
+    data['origin'] = args
     while 1:
         try:
             txt = t.stdout.readline()
@@ -31,13 +30,16 @@ def download(path: str, args: str) -> list:  # [title,current_size,total_size]
 
             if txt == 'DownLoad-Done':
                 break
+
+            assert 'Wrong' not in txt
         except:
             print('Something Wrong')
             remove_download_info(data['title'])
+            break
 
 
 def updata_download_info(data: dict):
-    r.r_set(data)
+    r.d_set(data)
 
 def remove_download_info(title:str):
     r.d2c_one(title)
