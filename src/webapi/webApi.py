@@ -1,11 +1,13 @@
+import sys
+sys.path.append('/home/zy/Rpi3BAndSamb')
 from flask import Flask
-from flask import Request
+from flask import request
 from flask import jsonify
 import src.redisdb.db as db
 
 r = db.redisdb()
 
-KEY = 'fake news!'
+KEY = 'fakenews!'
 app = Flask(__name__)
 
 
@@ -18,38 +20,39 @@ def get_args(args_dict) -> str:  # 参数拼接
     keys = args_dict.keys()
     arg = ''
     for key in keys:
-        arg += (' '+args_dict[key])
+        if key not in ['key','downloader']:
+            arg += (' '+args_dict[key])
     return arg
 
 
-@app.route('/download', methods=['POST', 'GET'])
+@app.route('/download', methods=['POST'])
 def download_any():
 
-    if Request.method == 'GET':
+    if request.method == 'GET':
         # fake news
         return "OK"
 
     else:
 
-        if Request.form['key'] != KEY:
+        if request.form['key'] != KEY:
             # fake news
             return 'OK'
 
-        elif Request.form['downloader'] == 'you-get' or Request.form['downloader'] == 'aria2':
-            args = get_args(Request.form)
-            data = {}
-            data['downloader'] = Request.form['downloader']
+        elif request.form['downloader'] == 'you-get' or request.form['downloader'] == 'aria2':
+            args = get_args(request.form)
+            data = {} #args for you-get looks like '-xxx http://xxxxxxxx',and it for aria2 is a str, which translate from json object
+            data['downloader'] = request.form['downloader']
             data['args'] = args
-            r.redisset(data)
+            r.w_set(data)
             return jsonify(date='Download join Wait Queue')
 
         else:
             return 'OK'
 
 
-@app.route('/download/info', method='GET')
+@app.route('/download/info', methods=['GET'])
 def updata_download_info():
-    json = r.redisget_all()
+    json = r.d_get_all()
     return json
 
 
