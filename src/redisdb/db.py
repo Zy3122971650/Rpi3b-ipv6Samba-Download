@@ -20,8 +20,11 @@ class redisdb(object):
         Pass in a dict,which should includ value of (tittle size total_size)
         """
         data_s = json.dumps(data)
-        Id = self.check_is_exist(data['title'])
-        if Id == None:
+        try:
+            Id = self.check_is_exist(data['title'])
+            if Id == None:
+                Id = self.find_suit_id(obj)
+        except:
             Id = self.find_suit_id(obj)
         obj.set(Id, data_s)
 
@@ -45,18 +48,18 @@ class redisdb(object):
         values = obj.mget(keys)
         dic = {}
         for i in range(len(values)):
-            dic[str(i)] = values[i]
+            dic[str(i)] = json.loads(values[i])
         data = json.dumps(dic)
         return data
 
     def w_get_all(self):
-        self.redisget_all(self.wait)
+        return self.redisget_all(self.wait)
 
     def d_get_all(self):
-        self.redisget_all(self.do)
+        return self.redisget_all(self.do)
 
     def c_get_all(self):
-        self.redisget_all(self.cplct)
+        return self.redisget_all(self.cplct)
 
     def check_is_exist(self, title: str):
         for key in self.do.keys():
@@ -83,6 +86,7 @@ class redisdb(object):
             if data['title'] == title:
                 Id = self.find_suit_id(self.cplct)
                 self.cplct.set(Id,self.do[key])
+                self.do.delete(key)
 
     def check_speed(self):
         pass

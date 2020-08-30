@@ -55,7 +55,9 @@ def updata_download_info():
     json = r.d_get_all()
     return json
 
-
+def main():
+    app.run(port=8002)
+    
 if __name__ == "__main__":
     app.run(
         port=8002
