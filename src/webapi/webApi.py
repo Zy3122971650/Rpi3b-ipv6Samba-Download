@@ -55,8 +55,8 @@ def updata_download_info():
 
 def main():
     import logging
-    log = logging.getLogger('werkzeug')
-    log.setLevel(logging.ERROR)
+    #log = logging.getLogger('werkzeug')
+    #log.setLevel(logging.ERROR)
     app.run(port=8002,
         debug=False,
         host='::'
