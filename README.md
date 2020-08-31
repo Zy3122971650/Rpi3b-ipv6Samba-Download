@@ -9,7 +9,9 @@
 
 
 ## 安装
-还没写好
+还没写好(其实勉强能用)
+
+bash install.sh
 
 ## TODO
 - [ ] 文件存放路径配置（aria2,you_get）

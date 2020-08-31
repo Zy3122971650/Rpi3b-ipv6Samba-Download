@@ -4,7 +4,7 @@ sudo apt update
  
 sudo apt install redis python3 python3-dev python3-pip samba samba-common-bin git aria2 
 
-python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple redis qcloudapi-sdk-python flask you-get
+python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple requests redis qcloudapi-sdk-python flask you-get
 
 #git clone webPath
 
