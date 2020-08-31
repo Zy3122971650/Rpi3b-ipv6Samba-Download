@@ -47,11 +47,10 @@ def remove_download_info(args:str):
 def scrip_main(args: str):
     # path = sys.path[0] +'/src/download/you_get/you-get'  #入口得是从Rpi3BAndSamb开始
     path = sys.path[0] + '/download/you_get/you-get'#main.py为入口，从Rpi....、/src开始
-    with open(path + '/download/you_get_download_save_file_path.txt','r+') as f:
-        put_dir_path = f.readline()[:-2]
-    args = ' '+args+' -o '+put_dir_path #制作参数
+    with open(sys.path[0]+ '/download/you_get_download_save_file_path.txt','r+') as f:
+        put_dir_path = f.readline()
+    args = ' -o '+put_dir_path+' '+args #制作参数
     download(path, args)
-    pass
 
 
 def updata_you_get():

@@ -41,7 +41,7 @@ def download_any():
             data = {} #args for you-get looks like '-xxx http://xxxxxxxx',and it for aria2 is a str, which translate from json object
             data['downloader'] = request.form['downloader']
             data['args'] = args
-            r.w_set(data)#好像在这里出了问题
+            r.w_set(data)
             return jsonify(date='Download join Wait Queue')
 
         else:
