@@ -21,7 +21,7 @@ class redisdb(object):
         """
         data_s = json.dumps(data)
         try:
-            Id = self.check_is_exist(data['title'])
+            Id = self.check_is_exist(data['origin']) #不能用title来判定是否为同一个东西，应该使用下载参数来确定
             if Id == None:
                 Id = self.find_suit_id(obj)
         except:
@@ -61,10 +61,10 @@ class redisdb(object):
     def c_get_all(self):
         return self.redisget_all(self.cplct)
 
-    def check_is_exist(self, title: str):
+    def check_is_exist(self, args: str):
         for key in self.do.keys():
             data = json.loads(self.do.get(key), encoding='utf-8')
-            if data['title'] == title:
+            if data['origin'] == args:
                 return key
         return None
 
@@ -73,17 +73,12 @@ class redisdb(object):
             return True
         return False
 
-    def d2c(self, keys):
-        for key in keys:
-            value = self.wait.get(key)
-            Id = self.find_suit_id(self.do)
-            self.do.set(Id, value)
     
-    def d2c_one(self,title):
+    def d2c_one(self,args):
         keys = self.do.keys()
         for key in keys:
             data = json.loads(self.do[key])
-            if data['title'] == title:
+            if data['origin'] == args:
                 Id = self.find_suit_id(self.cplct)
                 self.cplct.set(Id,self.do[key])
                 self.do.delete(key)

@@ -1,11 +1,10 @@
-import sys
-sys.path.append('/home/zy/Rpi3BAndSamb')
 import requests
 import json
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from src.QtUi.ui import Ui_MainWindow
+from QtUi.ui import Ui_MainWindow
 from PyQt5.QtCore import *
+import time
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -15,6 +14,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setUpFunction()
 
     def setUpFunction(self):
+        self.fileName0.setText('')
+        self.fileName1.setText('')
+        self.fileName2.setText('')
+        self.progressBar0.setValue(0)
+        self.progressBar1.setValue(0)
+        self.progressBar2.setValue(0)
         self.pushButton.clicked.connect(self.submit)
         self.upDataDownloadInfo()
 
@@ -23,17 +28,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def submit(self):
         self.pushButton.setEnabled(False)
-        data = {}
-        data['downloader'] = self.comboBox.currentIndex()
-        data['args'] = self.lineEdit.text()
-        t = thread_1(data=data)
-        t._signal.connect(self.setBtn)
-        t.start()
+        self.data = {}
+        self.data['downloader'] = self.comboBox.currentIndex()
+        self.data['args'] = self.lineEdit.text()
+        self.t1 = thread_1(data=self.data)
+        self.t1._signal.connect(self.setBtn)
+        self.t1.start()
 
     def upDataDownloadInfo(self):
-        t = thread_2()
-        t._signal.connect(self.drawDonloadInfo)
-        t.start()
+        self.t2 = thread_2()
+        self.t2._signal.connect(self.drawDonloadInfo)
+        self.t2.start()
 
     def drawDonloadInfo(self,data):
         total = len(data)
@@ -42,25 +47,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if data['0']['total_size'] == '0':
                 self.progressBar0.setValue(0)
             else:
-                self.progressBar0.setValue(float(str(int(data['0']['size'])/int(data['0']['total_size']))[:5])*100)
+                self.progressBar0.setValue(float(str(float(data['0']['size'])/float(data['0']['total_size']))[:5])*100)
             self.fileName1.setText(data['1']['title'])
             if data['1']['total_size'] == '0':
                 self.progressBar1.setValue(0)
             else:
-                self.progressBar1.setValue(float(str(int(data['1']['size'])/int(data['1']['total_size']))[:5])*100)
+                self.progressBar1.setValue(float(str(float(data['1']['size'])/float(data['1']['total_size']))[:5])*100)
             self.fileName2.setText(data['2']['title'])
             if data['2']['total_size'] == '0':
                 self.progressBar2.setValue(0)
             else:
-                self.progressBar2.setValue(float(str(int(data['2']['size'])/int(data['2']['total_size']))[:5])*100)
+                self.progressBar2.setValue(float(str(float(data['2']['size'])/float(data['2']['total_size']))[:5])*100)
         except:
-            self.fileName0.setText('')
-            self.fileName1.setText('')
-            self.fileName2.setText('')
-            self.progressBar0.setValue(0)
-            self.progressBar1.setValue(0)
-            self.progressBar2.setValue(0)
-            
+            pass            
 class thread_2(QtCore.QThread):
     _signal = pyqtSignal(dict)
 
@@ -68,8 +67,8 @@ class thread_2(QtCore.QThread):
         super(thread_2, self).__init__(parent=parent)
 
     def getDownloadInfo(self, url):
-        r = requests.get(url)
-        return json.loads(r.text)
+        self.r = requests.get(url)
+        return json.loads(self.r.text)
     def getDownloadingInfo(self):
         url = 'http://127.0.0.1:8002/download/info'
         self._signal.emit(self.getDownloadInfo(url))
@@ -86,14 +85,14 @@ class thread_1(QtCore.QThread):
         super(thread_1, self).__init__(parent=parent)
         self.data = data
     def run(self):
-        data_1 = {}
+        self.data_1 = {}
         if self.data['downloader'] == 0:
-            data_1['downloader']= 'you-get'
+            self.data_1['downloader']= 'you-get'
         else:
-            data_1['downloader'] = 'aria2'
-        data_1['args'] = self.data['args']
-        data_1['key'] = 'fakenews!'
-        r = requests.post('http://127.0.0.1:8002/download',data_1)
+            self.data_1['downloader'] = 'aria2'
+        self.data_1['args'] = self.data['args']
+        self.data_1['key'] = 'fakenews!'
+        self.r = requests.post('http://127.0.0.1:8002/download',self.data_1)
         self._signal.emit()
         pass
 

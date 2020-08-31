@@ -1,8 +1,7 @@
-import sys
-sys.path.append('/home/zy/Rpi3BAndSamb')
 import requests
 import json
-import src.redisdb.db as db
+import redisdb.db as db
+import time
 r = db.redisdb()
 
 # TODO：复用代码片段优化
@@ -81,8 +80,8 @@ def updata_download_info(data: dict):
     r.d_set(data)
 
 
-def remove_download_info(title: str):
-    r.d2c_one(title)
+def remove_download_info(args: str):
+    r.d2c_one(args)
 
 
 def main(args):
@@ -97,9 +96,10 @@ def main(args):
         data['total_size'] = total_size
         updata_download_info(data)
         if a.tellActiveStatus(gid) not in ['active','waiting']:
-            remove_download_info(title)
+            remove_download_info(args)
             a.remove(gid)
             break
+        time.sleep(1)
 
 if __name__ == "__main__":
-    main('http://download.kugou.com/download/kugou_pc')
+    main('http://app.mi.com/download/108048?id=com.tencent.tmgp.sgame&ref=search&nonce=-5583461006517876312%3A26646702&appClientId=2882303761517485445&appSignature=rn49x1c4IzNw667AVBZrp94Cet_Bb9Jyh9eQo5MF8MM')

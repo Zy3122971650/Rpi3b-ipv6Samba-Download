@@ -1,9 +1,7 @@
-import sys
-sys.path.append('/home/zy/Rpi3BAndSamb')
 from flask import Flask
 from flask import request
 from flask import jsonify
-import src.redisdb.db as db
+import redisdb.db as db
 
 r = db.redisdb()
 
@@ -22,7 +20,7 @@ def get_args(args_dict) -> str:  # 参数拼接
     for key in keys:
         if key not in ['key','downloader']:
             arg += (' '+args_dict[key])
-    return arg
+    return arg.strip()
 
 
 @app.route('/download', methods=['POST'])
@@ -43,7 +41,7 @@ def download_any():
             data = {} #args for you-get looks like '-xxx http://xxxxxxxx',and it for aria2 is a str, which translate from json object
             data['downloader'] = request.form['downloader']
             data['args'] = args
-            r.w_set(data)
+            r.w_set(data)#好像在这里出了问题
             return jsonify(date='Download join Wait Queue')
 
         else:
@@ -56,10 +54,16 @@ def updata_download_info():
     return json
 
 def main():
-    app.run(port=8002)
+    import logging
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
+    app.run(port=8002,
+        debug=False,
+        host='::'
+    )
     
 if __name__ == "__main__":
     app.run(
-        port=8002
+        host='::',
+        port=8002,
     )
-    pass

@@ -1,30 +1,30 @@
-主要是利用Samba和ipv6以及DDNS搭建公网下的私人网络共享文件夹，顺便再提供一个离线下载的功能。而外的包括了nginx配置的反向代理部分
+# 这是啥？
+用Samba做文件共享，you-get下载音视频，aria2做普遍意义的下载的离线下载器、文件分享机。
 
-## 网络共享文件夹
- - Samba
- - ipv6
- - DDNS
-
-## 离线下载机
- - Aria2
- - you-get
- - WebUi
-
-## Nginx
- - https
- - 下载机的UI APP
- - 博客
+## 想做什么？
+把树莓派做成一个下载机和私人文件共享机，供大学舍友下载、储存、分享文件。
 
 目前还是未完成的状态，我也不确定能不能完成（大一 电子商务见 - -）。
 
+
+
+## 安装
+还没写好
+
+## TODO
+- [ ] 文件存放路径配置（aria2,you_get）
+- [ ] 取消下载
+- [ ] qtGUI完善
+- [ ] WEBUI
 - [ ] Samba配置生成
-- [ ] 数据库
+- [x] 数据库
 - [ ] 下载管理
-- [ ] WebApi
+- [x] WebApi
 - [x] ipv6DDNS  
 - [x] ddns-server
 - [x] you-get
-- [ ] aria2
+- [x] aria2
+- [x] qtGUI
 - [ ] WebUi
-- [ ] Nginx
-- [ ] Blog
+- [ ] you-get按照下载网站进行分类，如果带有-l参数则把一系列文件储存到一个文件夹中
+- [ ] 设置自己访问WEBAPI的URL

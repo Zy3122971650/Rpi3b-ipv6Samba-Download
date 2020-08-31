@@ -1,21 +1,27 @@
-import sys
-sys.path.append('/home/zy/Rpi3BAndSamb')
-
-import src.download.downloadManage
-import src.webapi.webApi
+import download.downloadManage
+import webapi.webApi
 import subprocess
-from concurrent.futures.process import ProcessPoolExecutor
+import time
+import threading
+import sys
+
+class myThread(threading.Thread):
+    def __init__(self,fn):
+        threading.Thread.__init__(self)
+        self.fn = fn
+    def run(self):
+        self.fn()
 
 def redis():
     subprocess.Popen('redis-server --port 6380',shell=True)
     subprocess.Popen('redis-server --port 6381',shell=True)
     subprocess.Popen('redis-server',shell=True)
-    subprocess.Popen('aria2c --conf-path=/home/zy/Rpi3BAndSamb/src/download/aria2/aria2.conf ',shell=True)
+    subprocess.Popen('aria2c --conf-path={}/download/aria2/aria2.conf '.format(sys.path[0]),shell=True)
 def main():
-    process_pool = ProcessPoolExecutor()
-    process_pool.submit(redis)
-    process_pool.submit(src.download.downloadManage.main())
-    process_pool.submit(src.webapi.webApi.main)
+    myThread(redis).start()
+    time.sleep(2)
+    myThread(download.downloadManage.main).start()
+    myThread(webapi.webApi.main).start()
     pass
 
 if __name__ =='__main__':
