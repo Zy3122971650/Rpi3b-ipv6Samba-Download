@@ -1,12 +1,12 @@
 import requests
 import json
-
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from QtUi.ui import Ui_MainWindow
+from ui import Ui_MainWindow
 from PyQt5.QtCore import *
 import time
 
-
+host = 'http://127.0.0.1'
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
@@ -70,7 +70,8 @@ class thread_2(QtCore.QThread):
         self.r = requests.get(url)
         return json.loads(self.r.text)
     def getDownloadingInfo(self):
-        url = 'http://127.0.0.1:8002/download/info'
+        global host
+        url = host+':8002/download/info'
         self._signal.emit(self.getDownloadInfo(url))
     def run(self):
         import time
@@ -92,7 +93,8 @@ class thread_1(QtCore.QThread):
             self.data_1['downloader'] = 'aria2'
         self.data_1['args'] = self.data['args']
         self.data_1['key'] = 'fakenews!'
-        self.r = requests.post('http://127.0.0.1:8002/download',self.data_1)
+        global host
+        self.r = requests.post(host+':8002/download',self.data_1)
         self._signal.emit()
         pass
 
