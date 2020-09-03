@@ -64,7 +64,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def drawDownloadWaitTable(self, data):
         self.tableWidget.horizontalHeader().setStretchLastSection(True)  # 拉倒最大
         self.tableWidget.horizontalHeader().resizeSection(0, 200)
-        for i in range(self.tableWidget.currentRow()):
+        for i in range(self.tableWidget.rowCount()):
             self.tableWidget.removeRow(i)
         self.tableWidget.setColumnCount(2)
         self.tableWidget.setHorizontalHeaderLabels(['序号', '下载参数'])
@@ -72,30 +72,30 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             return 0
         data = data[1]
         for i in range(len(data)):
-            row = self.tableWidget.currentRow()
+            row = self.tableWidget.rowCount()
             self.tableWidget.setRowCount(row+1)
-            self.tableWidget.setItem(row, 0, QTableWidgetItem(str(i)))
+            self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(str(i)))
             self.tableWidget.setItem(
-                row, 1, QTableWidgetItem(data[str(i)]['args']))
+                row, 1, QtWidgets.QTableWidgetItem(data[str(i)]['args']))
 
     def drawDownloaCpltTable(self, data):
         self.tableWidget_2.horizontalHeader().setStretchLastSection(True)  # 拉倒最大
         self.tableWidget_2.horizontalHeader().resizeSection(0, 200)
-        for i in range(self.tableWidget_2.currentRow()):
+        for i in range(self.tableWidget_2.rowCount()):
             self.tableWidget_2.removeRow(i)
-        self.tableWidget_2.setColumnCount(2)
+        self.tableWidget_2.setColumnCount(3)
         self.tableWidget_2.setHorizontalHeaderLabels(['序号', '文件名', '下载参数'])
         if data[0] == 0:
             return 0
         data = data[1]
         for i in range(len(data)):
-            row = self.tableWidget_2.currentRow()
+            row = self.tableWidget_2.rowCount()
             self.tableWidget_2.setRowCount(row+1)
-            self.tableWidget_2.setItem(row, 0, QTableWidgetItem(str(i)))
+            self.tableWidget_2.setItem(row, 0,QtWidgets.QTableWidgetItem(str(i)))
             self.tableWidget_2.setItem(
-                row, 1, QTableWidgetItem(data[str(i)]['title']))
+                row, 1, QtWidgets.QTableWidgetItem(data[str(i)]['title']))
             self.tableWidget_2.setItem(
-                row, 2, QTableWidgetItem(data[str(i)]['args']))
+                row, 2, QtWidgets.QTableWidgetItem(data[str(i)]['origin']))
 
     def drawDonloadProcessInfo(self, data):
         if data[0] == 0:
