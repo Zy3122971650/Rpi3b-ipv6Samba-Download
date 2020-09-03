@@ -1,3 +1,4 @@
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -86,10 +87,12 @@ class Ui_MainWindow(object):
         self.label_8.setAlignment(QtCore.Qt.AlignCenter)
         self.label_8.setObjectName("label_8")
         self.gridLayout_2.addWidget(self.label_8, 0, 0, 1, 1)
-        self.tableView = QtWidgets.QTableView(self.centralwidget)
-        self.tableView.setObjectName("tableView")
-        self.gridLayout_2.addWidget(self.tableView, 1, 0, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout_2)
+        self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(0)
+        self.tableWidget.setRowCount(0)
+        self.verticalLayout.addWidget(self.tableWidget)
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.label_9 = QtWidgets.QLabel(self.centralwidget)
