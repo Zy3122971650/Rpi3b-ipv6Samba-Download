@@ -40,6 +40,9 @@ echo "$path" > $PWD/src/download/you_get_download_save_file_path.txt
 
 echo "启动DDNS服务"
 sudo systemctl daemon-reload
+sudo systemctl disable ddns.timer
 sudo systemctl enable ddns.timer
 sudo systemctl start ddns.timer
 sudo systemctl start RpiDownload.service
+sudo systemctl restart ddns.timer
+sudo systemctl restart RpiDownload.service
