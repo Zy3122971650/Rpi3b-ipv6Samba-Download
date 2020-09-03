@@ -65,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget.horizontalHeader().setStretchLastSection(True)  # 拉倒最大
         self.tableWidget.horizontalHeader().resizeSection(0, 200)
         for i in range(self.tableWidget.rowCount()):
-            self.tableWidget.removeRow(i)
+            self.tableWidget.removeRow(0)
         self.tableWidget.setColumnCount(2)
         self.tableWidget.setHorizontalHeaderLabels(['序号', '下载参数'])
         if data[0] == 0:
@@ -82,7 +82,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.tableWidget_2.horizontalHeader().setStretchLastSection(True)  # 拉倒最大
         self.tableWidget_2.horizontalHeader().resizeSection(0, 200)
         for i in range(self.tableWidget_2.rowCount()):
-            self.tableWidget_2.removeRow(i)
+            self.tableWidget_2.removeRow(0)
         self.tableWidget_2.setColumnCount(3)
         self.tableWidget_2.setHorizontalHeaderLabels(['序号', '文件名', '下载参数'])
         if data[0] == 0:
