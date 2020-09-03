@@ -96,6 +96,7 @@ def main(args):
         data['total_size'] = total_size
         updata_download_info(data)
         if a.tellActiveStatus(gid) not in ['active','waiting']:
+            time.sleep(1)
             remove_download_info(args)
             a.remove(gid)
             break
