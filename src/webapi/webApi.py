@@ -53,11 +53,11 @@ def updata_download_info():
     json = r.d_get_all()
     return json
 @app.route('/download/waitInfo', methods=['GET'])
-def updata_download_info():
+def updata_wait_info():
     json = r.w_get_all()
     return json
 @app.route('/download/cpltInfo', methods=['GET'])
-def updata_download_info():
+def updata_complete_info():
     json = r.c_get_all()
     return json
 def main():
