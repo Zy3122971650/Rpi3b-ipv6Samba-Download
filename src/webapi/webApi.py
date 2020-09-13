@@ -1,14 +1,14 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
-from flask_cors import *
+from flask_cors import CORS
 import redisdb.db as db
 
 r = db.redisdb()
 
 KEY = 'fakenews!'
 app = Flask(__name__)
-CORS(app,supports_credentials=True)
+CORS(app)
 
 @app.route('/')
 def index():
