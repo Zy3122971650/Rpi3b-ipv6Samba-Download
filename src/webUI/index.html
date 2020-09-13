@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-
+<!--CORS的问题-->
 <html>
     <head>
         <meta charset="utf-8">
         <title>Download UI</title>
-        <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
     </head>
     <body>
-        
+        <script src="./src/js/main.js"></script>
+        <p >HOST</p>
+        <input type="text" name="host" id="host">
+        <form id="forml">
+            <p>密码</p>
+            <input type="password" name="key" id="passwd">
+            <input type="button" value="绑定" onclick="get_download_info();">
+            <br>
+            <p>添加下载</p>
+            <input type="text" name="args">
+            <p>选择下载器</p>
+            <select name="downloader" id="download_select">
+                <option value="you-get">you-get(音频，视频网址)</option>
+                <option value="aria2">Aria2(普通文件、磁力链接)</option>
+            </select>
+            <input type="button" value="提交" id="submit_but" onclick="post_data();">
+        </form>
+        <div id="info">
+        </div>
+        <div id="waitInfo">
+            <!--javascrip-->
+        </div>
+        <div id="cpltInfo">
+
+        </div>
     </body>
 </html>
