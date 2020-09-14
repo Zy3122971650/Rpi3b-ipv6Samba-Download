@@ -35,7 +35,7 @@ function get_download_info() {
             clearInterval(get_timer)
         }
         }
-    
+
     function write(id, data) {
         var dom = document.getElementById(id)
         if (id == 'info') {
@@ -49,7 +49,7 @@ function get_download_info() {
                 var size = data_temp['size']
                 var total_size = data_temp['total_size']
                 var title = data_temp['title']
-                var speed = 0
+                var speed = data_temp['speed']
                 h.push(`<tr><td>${title}</td><td><progress id='bar${key}' max='${total_size}' value='${size}'></progress></td><td>${speed}</td></tr>`)
                 i = i-1
             }
