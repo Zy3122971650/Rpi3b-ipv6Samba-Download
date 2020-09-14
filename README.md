@@ -16,8 +16,8 @@ bash install.sh
 ## TODO
 - [x] 文件存放路径配置（aria2,you_get）
 - [ ] 取消下载
-- [ ] qtGUI完善
-- [ ] WEBUI
+- [x] qtGUI完善
+- [x] WEBUI
 - [ ] Samba配置生成
 - [x] 数据库
 - [x] 下载管理
@@ -31,3 +31,6 @@ bash install.sh
 - [ ] you-get按照下载网站进行分类，如果带有-l参数则把一系列文件储存到一个文件夹中
 - [ ] 设置自己访问WEBAPI的URL
 - [ ] aria2测试脚本
+- [ ] 从aria2恢复进度，添加进数据库
+- [ ] nginx配置
+- [ ] 添加日志信息
