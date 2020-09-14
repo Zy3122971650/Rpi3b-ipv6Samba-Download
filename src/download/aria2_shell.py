@@ -87,11 +87,11 @@ def calculat_speed(now,old):
     now = int(now)
     old = int(old)
     diff = now - old
-    if bytes_ps >= 1024 ** 3:
+    if diff >= 1024 ** 3:
         speed = '{:4.0f} GB/s'.format(diff / 1024 ** 3)
-    elif bytes_ps >= 1024 ** 2:
+    elif diff >= 1024 ** 2:
         speed = '{:4.0f} MB/s'.format(diff / 1024 ** 2)
-    elif bytes_ps >= 1024:
+    elif diff >= 1024:
         speed = '{:4.0f} kB/s'.format(diff / 1024)
     else:
         speed = '{:4.0f}  B/s'.format(diff)
