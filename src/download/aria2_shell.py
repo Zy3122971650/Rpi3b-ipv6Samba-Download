@@ -89,17 +89,32 @@ def main(args):
     gid = a.addUri(args)
     data = {}
     data['origin'] = args
+    history_size = 0
     while 1:
         title, size, total_size = a.get_download_info(gid)
         data['title'] = title
         data['size'] = size
         data['total_size'] = total_size
         updata_download_info(data)
+        ##10s没速度结束任务
+        if size == history_size:
+            i = 10
+            while 1:
+                title, size, total_size = a.get_download_info(gid)
+                time.sleep(0.5)
+                i -= 0.5
+                if size != history_size:
+                    break
+                elif i == 0:
+                    remove_download_info(args)
+                    a.remove(gid)
+                    return
         if a.tellActiveStatus(gid) not in ['active','waiting']:
             time.sleep(1)
             remove_download_info(args)
             a.remove(gid)
-            break
+            return
+        history_size = size
         time.sleep(1)
 
 if __name__ == "__main__":
