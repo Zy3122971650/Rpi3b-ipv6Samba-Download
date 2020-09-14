@@ -12,14 +12,25 @@ function get_download_info() {
         var host = document.getElementById('host').value
         var url = `http://${host}:8002/download/${from}`
         var xhr = new XMLHttpRequest()
-        xhr.open('GET', url, true)
-        xhr.send(null)
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                write(from, xhr.responseText)
-            }
+        try {
+            xhr.open('GET', url, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    write(from, xhr.responseText)
+                }else{
+                    if (xhr.status != 200){
+                        document.getElementById('host').value = '检查你的目标地址'
+                        clearInterval(get_timer)
+                        }
+                }
+            }    
+        } catch (error) {
+            document.getElementById('host').value = '检查你的目标地址'
+            clearInterval(get_timer)
         }
-    }
+        }
+    
     function write(id, data) {
         var dom = document.getElementById(id)
         if (id == 'info') {
@@ -84,7 +95,7 @@ function get_download_info() {
         get('cpltInfo')
     
     }
-    setInterval(main,500)
+    var get_timer = setInterval(main,500)
 };
 
 
