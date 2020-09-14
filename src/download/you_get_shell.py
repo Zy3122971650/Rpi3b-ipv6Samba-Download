@@ -13,6 +13,7 @@ def download(path: str, args: str) -> list:  # [title,current_size,total_size]
                          shell=True)
     data = {}
     data['origin'] = args
+    history_size = '0'
     while 1:
         try:
             txt = t.stdout.readline()
@@ -25,7 +26,9 @@ def download(path: str, args: str) -> list:  # [title,current_size,total_size]
                 str1 = txt[start+1:end-2]
                 data['total_size'] = str1.split('/')[0]
                 data['size'] = str1.split('/')[1]
-                updata_download_info(data)
+                data['speed'] = calculat_speed(siz)
+                updata_download_info(str1.split('/')[1],history_size)
+                history_size = str1.split('/')[1]
 
             if txt == 'DownLoad-Done':
                 remove_download_info(data['origin'])
@@ -43,6 +46,20 @@ def updata_download_info(data: dict):
 
 def remove_download_info(args:str):
     r.d2c_one(args)
+def calculat_speed(now,old):
+    now = int(now)
+    old = int(old)
+    diff = now - old
+    if bytes_ps >= 1024 ** 3:
+        speed = '{:4.0f} GB/s'.format(diff / 1024 ** 3)
+    elif bytes_ps >= 1024 ** 2:
+        speed = '{:4.0f} MB/s'.format(diff / 1024 ** 2)
+    elif bytes_ps >= 1024:
+        speed = '{:4.0f} kB/s'.format(diff / 1024)
+    else:
+        speed = '{:4.0f}  B/s'.format(diff)
+    return speed
+
 
 def scrip_main(args: str):
     # path = sys.path[0] +'/src/download/you_get/you-get'  #入口得是从Rpi3BAndSamb开始

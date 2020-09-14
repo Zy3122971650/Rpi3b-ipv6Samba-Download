@@ -83,6 +83,19 @@ def updata_download_info(data: dict):
 def remove_download_info(args: str):
     r.d2c_one(args)
 
+def calculat_speed(now,old):
+    now = int(now)
+    old = int(old)
+    diff = now - old
+    if bytes_ps >= 1024 ** 3:
+        speed = '{:4.0f} GB/s'.format(diff / 1024 ** 3)
+    elif bytes_ps >= 1024 ** 2:
+        speed = '{:4.0f} MB/s'.format(diff / 1024 ** 2)
+    elif bytes_ps >= 1024:
+        speed = '{:4.0f} kB/s'.format(diff / 1024)
+    else:
+        speed = '{:4.0f}  B/s'.format(diff)
+    return speed
 
 def main(args):
     a = Aria2Api()
@@ -95,6 +108,7 @@ def main(args):
         data['title'] = title
         data['size'] = size
         data['total_size'] = total_size
+        data['speed'] = calculat_speed(size,history_size)
         updata_download_info(data)
         ##10s没速度结束任务
         if size == history_size:
@@ -103,7 +117,7 @@ def main(args):
                 title, size, total_size = a.get_download_info(gid)
                 time.sleep(0.5)
                 i -= 0.5
-                if size != history_size:
+                if size != history_size and (size-history_size)>81920:#10kb/s
                     break
                 elif i == 0:
                     remove_download_info(args)
