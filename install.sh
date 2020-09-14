@@ -1,5 +1,6 @@
 # python python-pip samba git aria2 you-get flask systemd-service timer文件
-
+# samba的配置还没写
+# nginx的配置也没写
 sudo apt update 
  
 sudo apt install redis python3 python3-dev python3-pip samba samba-common-bin git aria2 
