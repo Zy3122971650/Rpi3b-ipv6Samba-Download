@@ -5,6 +5,11 @@ function post_data() {
     var xhr = new XMLHttpRequest()
     xhr.open('POST', 'http://' + host + ':8002/download', false)
     xhr.send(formData)
+    xhr.onreadystatechange = function(){
+        if (xhr.status == 200){
+            alert("提交成功")
+        }
+    }
 };
 
 function get_download_info() {
